@@ -34,7 +34,7 @@ const onClicked  = () =>{
       <li>The <span class="actionText">green</span> text signifies an action you must complete before ending the call.</li>
       
       <br>
-      <p>Please email RRybak@C3Connect.com to report any bugs.</p>
+      Please email RRybak@C3Connect.com to report any bugs.
       <br><br>
       <button @click="onClicked">Continue</button>
     
