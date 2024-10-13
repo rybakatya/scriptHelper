@@ -3,19 +3,19 @@
     <label v-if="label" class="input-label">{{ label }}</label>
     <div 
       contenteditable="true"
-      @input="updateTranscript"
+      @input="handleInput"
       @paste.prevent="handlePaste"
       :style="inputStyle"
       class="transcript-input"
       ref="transcriptInput"
     >
-      <span>{{ transcript }}</span><span class="interim">{{ interimTranscript }}</span>
+      <span>{{ userInput }}</span><span class="interim">{{ interimTranscript }}</span>
     </div>
     <div class="controls">
       <button 
         @mousedown="startRecognition" 
         @mouseup="stopRecognition" 
-        @mouseleave="stopRecognition"
+        @mouseleave="stopRecognition" 
         class="record-button"
         :class="{ recording: isRecording }"
       >
@@ -45,15 +45,16 @@ export default defineComponent({
       default: ''
     }
   },
-  setup(props) {
-    const transcript = ref<string>('');
-    const interimTranscript = ref<string>('');
+  
+  setup(props, { emit }) {
+    const userInput = ref<string>(''); // For user input
+    const interimTranscript = ref<string>(''); // For interim results from speech recognition
     const isRecording = ref<boolean>(false);
     let recognition: SpeechRecognition | null = null;
 
-    const updateTranscript = (event: Event) => {
+    const handleInput = (event: Event) => {
       const target = event.target as HTMLElement;
-      transcript.value = target.innerText.replace(/\n/g, ' \n'); // Preserve new lines
+      userInput.value = target.innerText.replace(/\n/g, ' \n'); // Update user input
     };
 
     const handlePaste = (event: ClipboardEvent) => {
@@ -67,27 +68,29 @@ export default defineComponent({
         return;
       }
 
+      emit('callStopDeadair'); // Emit the event to call the parent's function
+
+      // Only initialize recognition if not already started
       if (!recognition) {
         recognition = new (window.SpeechRecognition || (window as any).webkitSpeechRecognition)();
         recognition.continuous = true;
         recognition.interimResults = true;
 
         recognition.onresult = (event: SpeechRecognitionEvent) => {
-          let finalTranscript = transcript.value; // Start with existing transcript
           let interim = '';
+          let finalTranscript = userInput.value; // Start with existing user input
 
           for (let i = event.resultIndex; i < event.results.length; i++) {
             const result = event.results[i];
             if (result.isFinal) {
-              finalTranscript += result[0].transcript + ' ';
-              interimTranscript.value = ''; // Clear interim when final result is received
+              finalTranscript += result[0].transcript + ' '; // Append final result
             } else {
               interim += result[0].transcript + ' '; // Append interim results
             }
           }
 
-          transcript.value = finalTranscript.trim() + ' '; // Update final transcript
           interimTranscript.value = interim.trim(); // Update interim transcript
+          userInput.value = finalTranscript.trim(); // Update final transcript
         };
 
         recognition.onerror = (event: SpeechRecognitionError) => {
@@ -110,6 +113,7 @@ export default defineComponent({
         isRecording.value = false; // Set recording state to false
         recognition.stop();
       }
+      emit('callStartDeadAir');
     };
 
     const resetRecognition = () => {
@@ -117,9 +121,9 @@ export default defineComponent({
     };
 
     return {
-      transcript,
+      userInput,
       interimTranscript,
-      updateTranscript,
+      handleInput,
       handlePaste,
       startRecognition,
       stopRecognition,

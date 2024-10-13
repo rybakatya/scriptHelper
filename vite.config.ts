@@ -12,5 +12,9 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  build: {
+    outDir: "C:/Users/rfone/Desktop/site/scriptBin/"
+  },
+  base: "./",
 })
