@@ -5,7 +5,7 @@ import SkipQuestion from './components/SkipQuestion.vue';
 import InputField from './components/InputField.vue';
 import Viewer from './components/Viewer.vue';
 import DeadAirTimer from './components/DeadAirTimer.vue';
-
+import Navbar from './components/Navbar.vue'
 
 
 const collectedID = ref(false);
@@ -26,6 +26,11 @@ const verbalAuthObtained = ref(false);
 const memberState = ref('Select');
 const onClicked  = () =>{
   clicked.value = true;
+}
+
+const isValidState = () =>
+{
+  return true;
 }
 
 
@@ -51,8 +56,13 @@ const onClicked  = () =>{
       </div>
 
   </Viewer>
-  <header v-else class="customHeader">
+  
+
+
+  <div v-if="clicked ===true" class="customHeader">
     
+    <Navbar />
+
     <div class="content">
       <div class="checkbox-group">
         <label class="importantText">
@@ -68,20 +78,19 @@ const onClicked  = () =>{
          "Is it ok if I call you by your first name?"
         </p>
 
-      <div class="checkbox-group">
-        
-        <label class="importantText">
-          <input id="memberDOB" type="checkbox" /> Member D.O.B
-        </label>
-        <label class="importantText">
-          <input id="callbackNumber" type="checkbox" /> Callback Number
-        </label>
-      </div>
-
-      <p class="importantText">
+              <p class="importantText">
           <input v-model="callingForSelf" type="checkbox" />
          "Are you calling for yourself or for someone else?"
         </p>
+
+      <div class="checkbox-group">
+        <label class="importantText">
+          <input id="callbackNumber" type="checkbox" /> Callback Number
+        </label>
+        <label class="importantText">
+          <input id="memberDOB" type="checkbox" /> Member D.O.B
+        </label>
+      </div>
 
       <div >
         <label class="importantText">Caller Type:</label>
@@ -98,6 +107,17 @@ const onClicked  = () =>{
           <option>Select</option>
           <option>Florida</option>
         </select>
+        <br>
+        <details>
+          <summary>State Info:</summary>
+          <iframe class ="stateInfo" v-if="memberState === 'Alabama(AL)'" src ="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=74388#:~:text=%2D-,Alabama,-Plan%20website%3A"></iframe>
+          <iframe class="stateInfo" v-if="memberState === 'Arizona(AZ)'" src = "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=74388#:~:text=%2D-,Arizona,-Plan%20Website%3A"></iframe>
+          <iframe class="stateInfo" v-if="memberState=== 'Arkansas(AR)'" src ="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Arkansas,-Plan%20Website%3A"></iframe>
+          <iframe class ="stateInfo" v-if="memberState === 'California(CA)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,California,-Plan%20Website%3A"></iframe>
+          <iframe class="stateInfo" v-if="memberState === 'Deleware(DE)'"  src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Delaware,-Plan%20Website%3A"></iframe>
+          <iframe class="stateInfo" v-if="memberState === 'Florida(FL)'" src='https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Florida,-Plan%20Website%3A'></iframe>
+          <iframe class="stateInfo" v-if="memberState === 'Illinois(IL)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Illinois,-Plan%20Website%3A"></iframe>
+        </details>  
       </div>
 
       <p v-if="callerType === 'Select'" class="completionAlert">Please ensure that you select the caller type before proceeding!</p>
@@ -136,7 +156,7 @@ const onClicked  = () =>{
           Verify plan effective date, plan end date, plan name, and PCP/Medical group name.
         </div>
         <p v-if="confirmedMedicalPlan">
-          <span class="importantText">Caller stated that nothing has changed?</span>
+          <span class="importantText"> Did caller state that anything you listed was incorrect?</span>
           <select v-model="memberConfirmedPlan">
             <option>Select</option>
             <option>Yes</option>
@@ -146,7 +166,7 @@ const onClicked  = () =>{
           <div v-if="memberConfirmedPlan === 'Skip'">
             <SkipQuestion />
           </div>
-          <div v-if="memberConfirmedPlan === 'No'">
+          <div v-if="memberConfirmedPlan === 'Yes'">
             <p class="actionText">Ensure you update whatever information is not up to date before ending this call.</p>
           </div>
         </p>
@@ -161,7 +181,7 @@ const onClicked  = () =>{
         </p>
 
         <p v-if="preferencesUpdatedAsked">
-          <span class="importantText">Caller stated that nothing has changed?</span>
+          <span class="importantText">Caller's response?</span>
           <select v-model="addressChangedResponse">
             <option>Select</option>
             <option>Yes</option>
@@ -171,7 +191,7 @@ const onClicked  = () =>{
           <div v-if="addressChangedResponse === 'Skip'">
             <SkipQuestion />
           </div>
-          <div v-if="addressChangedResponse === 'No'">
+          <div v-if="addressChangedResponse === 'Yes'">
             <p class="actionText">Ensure you update whatever information is not up to date before ending this call.</p>
           </div>
         </p>
@@ -201,13 +221,18 @@ const onClicked  = () =>{
           Review Gaps in Care - "I have a few healthy reminders here I would like to discuss with you..."
           <p class="actionText" v-if="!isDsnpPlan && healthyBenefitsAsked">When reviewing healthy benefits (gaps in care) DO NOT mention the annual health risk assessment to this caller!</p>
         </p>
+
+
+        <p v-if="isValidState() === true" class="importantText">
+          
+        </p>
       </div>
 
-      <div v-if="callerType != 'Select'">
+      
         <DeadAirTimer />
-      </div>
+      
     </div>
-  </header>
+  </div>
 
   <main>
   </main>
@@ -231,6 +256,11 @@ const onClicked  = () =>{
   color:aqua;
 }
 
+.secondaryCompletionAlert
+{
+  font-weight: bold;
+  color:darkseagreen;
+}
 .inputField {
   background-color: #333; /* Dark background for the input area */
   color: #fff; /* Light text color */
@@ -257,8 +287,7 @@ const onClicked  = () =>{
   left:0vh;
   top:0;
   height:100%;
-  width: 500px; /* Full width */
-  
+  width: 500px; /* Full width */  
 }
 
 .info {
@@ -266,11 +295,12 @@ const onClicked  = () =>{
   top:2.5%;
   margin: 12.5px;
 }
+
 .customHeader
 {
   position: absolute;
   left:1vh;
-  top:0;
+  top:50px;
 }
 
 .checkbox-group
@@ -278,11 +308,10 @@ const onClicked  = () =>{
   color: #f39c12; 
 }
 
-
-
-
-
-
+.stateInfo {
+  width:400px;
+  height:400px;;
+}
 
 
 
