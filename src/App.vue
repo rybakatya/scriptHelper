@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import HyperLink from './components/HyperLink.vue';
 import SkipQuestion from './components/SkipQuestion.vue';
-import InputField from './components/InputField.vue';
 import Viewer from './components/Viewer.vue';
 import DeadAirTimer from './components/DeadAirTimer.vue';
 import Navbar from './components/Navbar.vue'
@@ -33,7 +32,61 @@ const isValidState = () =>
   return true;
 }
 
+const stateInfo = 
+[
+  [ "Select" ],
+  [
+    "Alabama (AL)", 
+    "Wellcare by Allwell", 
+    "https://wellcarecomplete.com/", 
+    "NA", 
+    "NA", 
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=74388#:~:text=%2D-,Alabama,-Plan%20website%3A"
+  ],
 
+  [
+    "Arizona (AZ)", 
+    "Wellcare by Allwell", 
+    "https://wellcare.azcompletehealth.com/", 
+    "NA", 
+    "NA", 
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=74388#:~:text=%2D-,Arizona,-Plan%20Website%3A"
+  ],
+
+  [
+    "Arkansas (AR)", 
+    "Wellcare By Allwell", 
+    "https://wellcare.arhealthwellness.com/", 
+    "NA", 
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Arkansas,-Plan%20Website%3A",
+  ],
+
+  [
+    "California (CA)",
+    "Wellcare By Health Net",
+    "https://wellcare.healthnetcalifornia.com/", 
+    "www.Healthnet.com", 
+    "https://wellcare.healthnetcalifornia.com/ ",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,California,-Plan%20Website%3A"
+  
+  ],
+
+  [
+    "Deleware", 
+    "Wellcare", 
+    "https://www.wellcare.com/de",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Delaware,-Plan%20Website%3A"
+  ], 
+
+  [
+    "Florida",
+    "Wellcare By Allwell", 
+  ]
+
+]
 </script>
 
 <template>
@@ -105,7 +158,7 @@ const isValidState = () =>
         <label class="alertText">Member State:</label>
         <select v-model="memberState" class="dropDown">
           <option>Select</option>
-          <option>Florida</option>
+          <option>Florida(FL)</option>
         </select>
         <br>
         <details>
@@ -115,8 +168,13 @@ const isValidState = () =>
           <iframe class="stateInfo" v-if="memberState=== 'Arkansas(AR)'" src ="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Arkansas,-Plan%20Website%3A"></iframe>
           <iframe class ="stateInfo" v-if="memberState === 'California(CA)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,California,-Plan%20Website%3A"></iframe>
           <iframe class="stateInfo" v-if="memberState === 'Deleware(DE)'"  src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Delaware,-Plan%20Website%3A"></iframe>
-          <iframe class="stateInfo" v-if="memberState === 'Florida(FL)'" src='https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Florida,-Plan%20Website%3A'></iframe>
+          <iframe class="stateInfo" v-if="memberState === 'Florida(FL)'" src='https://www.reddit.com/'></iframe>
           <iframe class="stateInfo" v-if="memberState === 'Illinois(IL)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Illinois,-Plan%20Website%3A"></iframe>
+          <iframe class="stateInfo" v-if="memberState === 'Indiana(IN)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Indiana,-Plan%20Website%3A"></iframe>
+          <iframe class="stateInfo" v-if="memberState === 'Kansas(KS)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Kansas,-Plan%20Website%3A"></iframe>
+          <iframe class="stateInfo" v-if="memberState === 'Michigan(MI)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Michigan,-Plan%20Website%3A"></iframe>
+          <iframe class="stateInfo" v-if="memberState === 'Missouri'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Missouri,-Plan%20Website%3A"></iframe>
+          <iframe class="stateInfo" v-if="memberState === 'Nebraska(NE)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Nebraska,-Plan%20Website%3A"></iframe>  
         </details>  
       </div>
 

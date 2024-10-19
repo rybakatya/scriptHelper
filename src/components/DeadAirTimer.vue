@@ -1,6 +1,16 @@
 <template>
   <div>
-    <InputField @callStopDeadair="stopDeadAir" label="Tests" />
+    <InputField @callStopDeadair="stopDeadAir" label="Call Reason:" />
+    <InputField @callStopDeadair="stopDeadAir" label="Call Action:"/>
+    <InputField @callStopDeadair="stopDeadAir" label="Call Resolution:"/>
+    <p>
+        <input class ="dark" type="text" id="search" name="search">
+        <button class ="dark" type="button" onclick="openResearchLinks()">Search Central Point</button>
+    </p>
+    <p>
+        <button class ="dark" type="button" onclick="genSummary()">Generate Summary</button>
+        <button class ="dark" type="button" onclick="copyRAR()">Copy Notes</button>  
+    </p>
   </div>
 </template>
 
@@ -16,8 +26,8 @@ export default defineComponent({
     const nextAlertTime = ref(0);
     const timesAlterted = ref(0);
     const isRecording = ref<boolean>(false);
-      const intervalId = ref<number | null>(null);
-        const audio = new Audio(beepFx);
+    const intervalId = ref<number | null>(null);
+    const audio = new Audio(beepFx);
     const recognition = ref<SpeechRecognition | null>(null); // Use null as the initial value
     const startRepeatingFunction = () => {
         intervalId.value = setInterval(() => {
@@ -93,3 +103,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.dark 
+{
+  color:whitesmoke;
+  background-color: #3d3d3d;
+}
+</style>
