@@ -23,25 +23,40 @@ const canCallFirstName = ref(false);
 const callingForSelf = ref(false);
 const verbalAuthObtained = ref(false);
 const memberState = ref('Select');
+
+const selectedStateIndex = ref(0);
+
+const onStateChanged = (event: Event) => {
+  alert("called");
+  const target = event.target as HTMLSelectElement;
+  selectedStateIndex.value = target.selectedIndex;
+};
+
 const onClicked  = () =>{
   clicked.value = true;
 }
 
-const isValidState = () =>
-{
-  return true;
-}
+
 
 const stateInfo = 
 [
-  [ "Select" ],
+  [ 
+    "Select",
+    null,
+    null,
+    null,
+    null,
+    null,
+    false
+  ],
   [
     "Alabama (AL)", 
     "Wellcare by Allwell", 
     "https://wellcarecomplete.com/", 
     "NA", 
     "NA", 
-    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=74388#:~:text=%2D-,Alabama,-Plan%20website%3A"
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=74388#:~:text=%2D-,Alabama,-Plan%20website%3A",
+    false
   ],
 
   [
@@ -50,7 +65,8 @@ const stateInfo =
     "https://wellcare.azcompletehealth.com/", 
     "NA", 
     "NA", 
-    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=74388#:~:text=%2D-,Arizona,-Plan%20Website%3A"
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=74388#:~:text=%2D-,Arizona,-Plan%20Website%3A",
+    false
   ],
 
   [
@@ -60,6 +76,7 @@ const stateInfo =
     "NA", 
     "NA",
     "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Arkansas,-Plan%20Website%3A",
+    true
   ],
 
   [
@@ -68,24 +85,181 @@ const stateInfo =
     "https://wellcare.healthnetcalifornia.com/", 
     "www.Healthnet.com", 
     "https://wellcare.healthnetcalifornia.com/ ",
-    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,California,-Plan%20Website%3A"
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,California,-Plan%20Website%3A",
+    true
   
   ],
 
   [
-    "Deleware", 
+    "Deleware (DE)", 
     "Wellcare", 
     "https://www.wellcare.com/de",
     "NA",
     "NA",
-    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Delaware,-Plan%20Website%3A"
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Delaware,-Plan%20Website%3A",
+    true
   ], 
 
   [
-    "Florida",
+    "Florida (FL)",
     "Wellcare By Allwell", 
-  ]
+    "https://wellcarecomplete.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Florida,-Plan%20Website%3A",
+    true
 
+  ],
+
+  [
+    "Illinois (IL)",
+    "Wellcare By Allwell", 
+    "https://wellcarecomplete.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Illinois,-Plan%20Website%3A",
+    true
+  ],
+
+  [
+    "Indiana (IN)",
+    "Wellcare By Allwell", 
+    "https://wellcare.mhsindiana.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Indiana,-Plan%20Website%3A",
+    true
+  ],
+
+  [
+    "Kansas (KS)",
+    "Wellcare By Allwell", 
+    "https://wellcare.sunflowerhealthplan.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Kansas,-Plan%20Website%3A",
+    true
+  ],
+
+  [
+    "Michigan (MI)",
+    "Wellcare By Allwell",
+    "https://www.wellcarecomplete.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Michigan,-Plan%20Website%3A",
+    true
+  ],
+
+  [
+    "Missouri (MO)",
+    "Wellcare By Allwell",
+    "https://wellcare.homestatehealth.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Missouri,-Plan%20Website%3A",
+    true
+  ],
+
+  [
+    "Nebraska (NE)",
+    "Wellcare",
+    "https://www.wellcarene.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Nevada,-Plan%20Website%3A",
+    true
+  ],
+
+  [
+    "Nevada (NV)",
+    "Wellcare By Allwell",
+    "https://wellcare.silversummithealthplan.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Nevada,-Plan%20Website%3A",
+    false
+  ],
+
+  [
+    "New Mexico (NM)",
+    "Wellcare By Allwell", 
+    "https://wellcare.westernskycommunitycare.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,New%20Mexico,-Plan%20Website%3A",
+    false
+  ],
+
+  [
+    "Ohio (OH)",
+    "Wellcare By Allwell", 
+    "https://wellcare.buckeyehealthplan.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Ohio,-Plan%20Website%3A",
+    true
+  ],
+
+  [
+    "Oklahoma (OK)",
+    "Wellcare",
+    "https://www.wellcareok.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Oklahoma,-Plan%20Website%3A",
+    true
+  ],
+
+  [
+    "Oregon (OR)", 
+    "Wellcare By Health Net", 
+    "https://wellcare.healthnetoregon.com/", 
+    "https://wellcare.trilliumadvantage.com/",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=Oregon%20and%20Washington",
+    true
+  ],
+
+  [
+    "Pennsylvania (PA)",
+    "Wellcare By Allwell", 
+    "https://wellcare.pahealthwellness.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Pennsylvania,-Plan%20Website%3A",
+    true
+  ],
+
+  [
+    "Texas (TX)",
+    "Wellcare by Allwell",
+    "https://wellcare.superiorhealthplan.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Texas,-Plan%20Website%3A",
+    true
+  ],
+
+  [
+    "Washington (WA)", 
+    "Wellcare By Health Net", 
+    "https://wellcare.healthnetoregon.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=Oregon%20and%20Washington",
+    true
+  ],
+
+  [
+    "Wisconsin (WI)",
+    "Wellcare By Allwell",
+    "https://wellcare.mhswi.com/",
+    "NA",
+    "NA",
+    "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Wisconsin,-Plan%20Website%3A",
+    true
+  ]
 ]
 </script>
 
@@ -156,26 +330,13 @@ const stateInfo =
         </select>
 
         <label class="alertText">Member State:</label>
-        <select v-model="memberState" class="dropDown">
-          <option>Select</option>
-          <option>Florida(FL)</option>
+        <select @change="onStateChanged" v-model="memberState" class="dropDown">
+          <option v-for="state in stateInfo">{{state[0]}}</option>
         </select>
         <br>
-        <details>
-          <summary>State Info:</summary>
-          <iframe class ="stateInfo" v-if="memberState === 'Alabama(AL)'" src ="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=74388#:~:text=%2D-,Alabama,-Plan%20website%3A"></iframe>
-          <iframe class="stateInfo" v-if="memberState === 'Arizona(AZ)'" src = "https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=74388#:~:text=%2D-,Arizona,-Plan%20Website%3A"></iframe>
-          <iframe class="stateInfo" v-if="memberState=== 'Arkansas(AR)'" src ="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Arkansas,-Plan%20Website%3A"></iframe>
-          <iframe class ="stateInfo" v-if="memberState === 'California(CA)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,California,-Plan%20Website%3A"></iframe>
-          <iframe class="stateInfo" v-if="memberState === 'Deleware(DE)'"  src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Delaware,-Plan%20Website%3A"></iframe>
-          <iframe class="stateInfo" v-if="memberState === 'Florida(FL)'" src='https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Florida,-Plan%20Website%3A&embedded=true'></iframe>
-          <iframe class="stateInfo" v-if="memberState === 'Illinois(IL)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Illinois,-Plan%20Website%3A"></iframe>
-          <iframe class="stateInfo" v-if="memberState === 'Indiana(IN)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Indiana,-Plan%20Website%3A"></iframe>
-          <iframe class="stateInfo" v-if="memberState === 'Kansas(KS)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Kansas,-Plan%20Website%3A"></iframe>
-          <iframe class="stateInfo" v-if="memberState === 'Michigan(MI)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Michigan,-Plan%20Website%3A"></iframe>
-          <iframe class="stateInfo" v-if="memberState === 'Missouri'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Missouri,-Plan%20Website%3A"></iframe>
-          <iframe class="stateInfo" v-if="memberState === 'Nebraska(NE)'" src="https://cenpointprd.ad.wellcare.com/articles/5c815a45-90f1-4f67-8b4b-7d52f92f3546?row=1&memory=46718#:~:text=%2D-,Nebraska,-Plan%20Website%3A"></iframe>  
-        </details>  
+        <HyperLink v-if="selectedStateIndex != 0" :href="stateInfo[selectedStateIndex][2]" :text="stateInfo[selectedStateIndex][2]"/>
+        <br>
+        <HyperLink v-if="selectedStateIndex != 0" :href="stateInfo[selectedStateIndex][5]" text="Click here for state info" />
       </div>
 
       <p v-if="callerType === 'Select'" class="completionAlert">Please ensure that you select the caller type before proceeding!</p>
@@ -280,9 +441,14 @@ const stateInfo =
           <p class="actionText" v-if="!isDsnpPlan && healthyBenefitsAsked">When reviewing healthy benefits (gaps in care) DO NOT mention the annual health risk assessment to this caller!</p>
         </p>
 
-
-        <p v-if="isValidState() === true" class="importantText">
-          
+        <br>
+        <p v-if="stateInfo[selectedStateIndex][6] == true" class="importantText">
+          We are offering a free 45-min assessment, this is when one of our providers come to your home to review medical history and ask a few questions, at the end of the assessment you are eligible for a $100 gift card. Is this something you would be interested in?
+          <br>
+          <br>
+          <span class="boldWhite">Signify is the preferred vendor for all members, unless otherwise mentioned by the member or if Signify isn't serving the members state.</span>
+          <br>
+          <HyperLink href="https://cenpointprd.ad.wellcare.com/articles/fb0877b9-f21c-4bb1-8625-b1b453bc2356?row=1&memory=39378#:~:text=States-,Signify,-Health%3A%201" text="Click here for IHA vendor info" />
         </p>
       </div>
 
@@ -297,7 +463,10 @@ const stateInfo =
 </template>
 
 <style>
-
+.boldWhite{
+  color:whitesmoke;
+  font-weight: bold;
+}
 .dropDown
 {
   margin-right: 1vw;

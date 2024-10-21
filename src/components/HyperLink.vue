@@ -1,5 +1,6 @@
 <template>
     <a class="link" :href="props.link" target="_blank">{{ props.text }}</a>
+    
 </template>
 
 <script setup lang="ts">
